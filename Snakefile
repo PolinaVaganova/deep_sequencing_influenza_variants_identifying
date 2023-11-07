@@ -81,33 +81,25 @@ rule mpileup:
 	shell:
 		"samtools mpileup -f {input.ref} {input.align} > {output} -d=0"
 
-rule varscan_roommate_common:
-	input:
-		"{refernce}.{roommate}.mpileup"
-	output:
-		"{refernce}.{roommate}.common.vcf"
-	shell:
-		"varscan mpileup2snp {input} --min-var-freq 0.95 --variants --output-vcf 1 > {output}"
-
-rule varscan_sample_rare:
+rule varscan_sample_all_freq:
 	input:
 		"{refernce}.{sample}.mpileup"
 	output:
-		"{refernce}.{sample}.rare.vcf"
+		"{refernce}.{sample}.all_freq.vcf"
 	shell:
 		"varscan mpileup2snp {input} --min-var-freq 0.001 --variants --output-vcf 1 > {output}"
 
 rule collect_variants_characteristics:
 	input:
-		"{refernce}.{sample}.rare.vcf"
+		"{refernce}.{sample}.all_freq.vcf"
 	output:
-		"{refernce}.{sample}.csv"
+		"{refernce}.{sample}.all_freq.variants.csv"
 	shell:
 		"awk 'NR>24 {{split($10, arr, \":\"); print $4, $2, $5, arr[7]}}' {input} > {output}"
 
 rule filter_variants_based_on_statistics:
 	input:
-		"{refernce}.{sample}.variants.csv"
+		"{refernce}.{sample}.all_freq.variants.csv"
 	output:
 		"controls_statistics.csv"
 		"filtered_roommate_variants.csv"

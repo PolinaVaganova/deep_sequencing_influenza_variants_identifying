@@ -10,7 +10,7 @@ The steps to installing the environments are as follows:
 - Clone this repo
 - Run 
 ```
-conda env create -f requirements.yml
+conda env create -f ds_influenza.yaml
 ```
 - Activate new conda enviroment
 

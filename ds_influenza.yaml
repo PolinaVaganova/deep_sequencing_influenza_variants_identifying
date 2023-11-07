@@ -1,0 +1,33 @@
+# packages in environment at /Users/polylover/miniconda3/envs/prac2:
+#
+# Name                    Version                   Build  Channel
+bcftools                  1.5                           3    bioconda
+bzip2                     1.0.8                h1de35cc_0  
+c-ares                    1.19.1               h6c40b1e_0  
+ca-certificates           2023.08.22           hecd8cb5_0  
+curl                      8.4.0                h04015c4_0  
+expat                     2.5.0                hcec6c5f_0  
+fastqc                    0.12.1               hdfd78af_0    bioconda
+font-ttf-dejavu-sans-mono 2.37                 hd3eb1b0_0  
+fontconfig                2.14.1               hb0a0c50_2  
+freetype                  2.12.1               hd8bbffd_0  
+gdbm                      1.18                 hdccc71a_4  
+icu                       73.1                 hcec6c5f_0  
+krb5                      1.20.1               h428f121_1  
+libcurl                   8.4.0                hf20ceda_0  
+libcxx                    14.0.6               h9765a3e_0  
+libedit                   3.1.20221030         h6c40b1e_0  
+libev                     4.33                 h9ed2024_1  
+libiconv                  1.16                 hca72f7f_2  
+libnghttp2                1.57.0               h9beae6a_0  
+libpng                    1.6.39               h6c40b1e_0  
+libssh2                   1.10.0               h04015c4_2  
+libxml2                   2.10.4               h1bd7e62_1  
+ncurses                   6.4                  hcec6c5f_0  
+openjdk                   11.0.13              h8346a28_0  
+openssl                   3.0.12               hca72f7f_0  
+perl                      5.34.0               h435f0c2_2  
+readline                  8.2                  hca72f7f_0  
+varscan                   2.4.6                hdfd78af_0    bioconda
+xz                        5.4.2                h6c40b1e_0  
+zlib                      1.2.13               h4dc903c_0  

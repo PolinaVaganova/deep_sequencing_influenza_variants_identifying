@@ -37,71 +37,73 @@ rule data_unzip:
 
 rule bwa_index:
 	input:
-		"{refernce}.fasta"
+		"{reference}.fasta"
 	output:
-		"{refernce}.fasta.amb",
-		"{refernce}.fasta.ann",
-		"{refernce}.fasta.bwt",
-		"{refernce}.fasta.pac",
-		"{refernce}.fasta.sa"
+		"{reference}.fasta.amb",
+		"{reference}.fasta.ann",
+		"{reference}.fasta.bwt",
+		"{reference}.fasta.pac",
+		"{reference}.fasta.sa"
 	shell:
 		"bwa index {input}"
 
 rule bwa_alignment:
 	input:
-		"{refernce}.fasta.amb",
-		"{refernce}.fasta.ann",
-		"{refernce}.fasta.bwt",
-		"{refernce}.fasta.pac",
-		"{refernce}.fasta.sa",
-		ref="{refernce}.fasta",
+		"{reference}.fasta.amb",
+		"{reference}.fasta.ann",
+		"{reference}.fasta.bwt",
+		"{reference}.fasta.pac",
+		"{reference}.fasta.sa",
+		ref="{reference}.fasta",
 		reads="{sample}.fastq" 
 	log:
-		"logs/bwa.{refernce}.{sample}.log"
+		"logs/bwa.{reference}.{sample}.log"
 	output:
-		temporary("{refernce}.{sample}.unsorted.bam")
+		temporary("{reference}.{sample}.unsorted.bam")
 	shell:
 		"bwa mem {input.ref} {input.reads} 2>{log} | samtools view -S -b > {output}"
 
 rule bam_sort:
 	input:
-		"{refernce}.{sample}.unsorted.bam"
+		"{reference}.{sample}.unsorted.bam"
 	output:
-		protected("{refernce}.{sample}.sorted.bam")
+		protected("{reference}.{sample}.sorted.bam")
 	threads: 8
 	shell:
 		"samtools sort --threads {threads} {input} > {output}"
 
 rule mpileup:
 	input:
-		ref="{refernce}.fasta",
-		align="{refernce}.{sample}.sorted.bam"
+		ref="{reference}.fasta",
+		align="{reference}.{sample}.sorted.bam"
 	output:
-		"{refernce}.{sample}.mpileup"
+		"{reference}.{sample}.mpileup"
 	shell:
 		"samtools mpileup -f {input.ref} {input.align} > {output} -d=0"
 
-rule varscan_sample_all_freq:
+rule varscan_sample_rare:
 	input:
-		"{refernce}.{sample}.mpileup"
+		"{reference}.{sample}.mpileup"
 	output:
-		"{refernce}.{sample}.all_freq.vcf"
+		"{reference}.{sample}.rare.vcf"
 	shell:
 		"varscan mpileup2snp {input} --min-var-freq 0.001 --variants --output-vcf 1 > {output}"
 
 rule collect_variants_characteristics:
 	input:
-		"{refernce}.{sample}.all_freq.vcf"
+		"{reference}.{sample}.rare.vcf"
 	output:
-		"{refernce}.{sample}.all_freq.variants.csv"
+		"{reference}.{sample}.variants.csv"
 	shell:
 		"awk 'NR>24 {{split($10, arr, \":\"); print $4, $2, $5, arr[7]}}' {input} > {output}"
 
+
 rule filter_variants_based_on_statistics:
 	input:
-		"{refernce}.{sample}.all_freq.variants.csv"
+		"{reference}.{sample}.variants.csv"
 	output:
-		"controls_statistics.csv"
-		"filtered_roommate_variants.csv"
+		"filtered.{reference}.{sample}.variants.csv"
 	shell:
-		"python3 get_true_mutations.py"
+		"python filter_variants.py"
+
+

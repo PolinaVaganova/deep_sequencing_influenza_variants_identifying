@@ -1,6 +1,6 @@
 # deep_sequencing_influenza_variants_identifying
 
-This repository contains scripts and data for setting up and running influenza deep sequencing analysis with variants filtration.
+This repository contains scripts and data for setting up and running influenza deep sequencing analysis with rare variants filtration.
 
 ## Setup
 
@@ -16,16 +16,13 @@ conda env create -f ds_influenza.yaml
 
 ## Get reference HA gene sequence
 
-[Download reference manually](https://www.ncbi.nlm.nih.gov/nuccore/KF848938.1?report=fasta) in `fasta` format.
+[Download reference manually](https://www.ncbi.nlm.nih.gov/nuccore/KF848938.1?report=fasta) in `fasta` format (send to -> file -> FASTA -> Create file) and place it in this repo dir as `deep_sequencing_influenza_variants_identifying/sequence.fasta`.
 
 ## Proccess experimental and control reads  
 
-You can repeat protocol described in report by using `Snakemake` script provided in this dir. For this purpose execute following command:
+You can repeat protocol described in report by using `Snakemake` script provided in this dir. For this purpose execute following commands:
 ```
-Snakemake --cores all -p filtered_roommate_variants.csv
+Snakemake --cores all -p reference.control_1.variants.csv reference.control_2.variants.csv reference.control_3.variants.csv filtered.reference.roommate.variants.csv
 ```
-This script was created through manually implementation of each step:
-
-1. Download and uzip reads in `fastqs` format
-2. Align your reads to the reference sequence
+Data about filtered rare SNPs will be collected in `filtered.reference.roommate.variants.csv` file.
 
